@@ -1,42 +1,40 @@
 import React, {Component} from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import {Form, Icon, Input, Button, Checkbox} from 'antd';
 import './login.css'
+
 const FormItem = Form.Item;
 
 class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {
-            username: '',
-            password: '',
-        }
+
     }
 
     login = (event) => {
+        const { getFieldValue } = this.props.form;
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }
+        });
+        let username = getFieldValue('username');
+        let password = getFieldValue('password');
+        console.log(username+','+password);
         event.preventDefault();
-        console.log('登录成功.');
-    };
-
-    handleChangeUsername = (event) => {
-        this.setState({username: event.target.value});
-    };
-
-    handleChangePassword = (event) => {
-        this.setState({password: event.target.value});
     };
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator} = this.props.form;
         return (
             <Form onSubmit={this.login} className="login-form">
                 <FormItem>
-                    {getFieldDecorator('username', {rules: [{required: true, message: '必须输入用户名！'}],})
-                    (<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.username} placeholder="用户名" />)
+                    {getFieldDecorator('username', {rules: [{required: true, message: 'Please input your Username!'}]})
+                    (<Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="username"/>)
                     }
                 </FormItem>
                 <FormItem>
-                    {getFieldDecorator('password', {rules: [{required: true, message: '必须输入密码！'}],})
-                    (<Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" value={this.state.password} placeholder="密码" />)
+                    {getFieldDecorator('password', {rules: [{required: true, message: 'Please input your Password!'}]})
+                    (<Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password" placeholder="password"/>)
                     }
                 </FormItem>
                 <FormItem>
